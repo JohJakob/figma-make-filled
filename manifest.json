@@ -2,7 +2,11 @@
   "name": "Make Filled",
   "id": "1130056585691217551",
   "api": "1.0.0",
-  "main": "code.js",
+  "main": "dist/code.js",
+  "menu": [
+    { "name": "Make Filled", "command": "make_filled" },
+    { "name": "Make Filled and Flatten", "command": "make_filled_and_flatten" }
+  ],
   "editorType": [
     "figma"
   ]
