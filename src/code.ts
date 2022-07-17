@@ -1,11 +1,12 @@
 import clone from './clone';
 
+let madeFilled = false;
+
 const makeFilled = (selection) => {
   const fallbackColor = {r: 0, g: 0, b:0};
 
   for (const node of selection) {
     let strokes;
-    let madeFilled = false;
 
     // Only process visible nodes
     if (node.visible) {
@@ -66,6 +67,8 @@ const makeFilled = (selection) => {
         if (figma.command === "make_filled_and_flatten") {
           figma.flatten([boolNode]);
         }
+
+        madeFilled = true;
       } else if (node.type === "BOOLEAN_OPERATION" || node.type === "COMPONENT" || node.type === "FRAME" || node.type === "GROUP" || node.type === "INSTANCE") {
         // Process the children of boolean operation nodes, components, frames, groups, and instances
         makeFilled(node.children);
