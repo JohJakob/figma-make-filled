@@ -10,7 +10,7 @@ const makeFilled = (selection) => {
 
     // Only process visible nodes
     if (node.visible) {
-      if (node.type === "ELLIPSE" || node.type === "POLYGON" || node.type === "STAR" || node.type === "RECTANGLE" || node.type === "VECTOR") {
+      if (node.type === "ELLIPSE" || node.type === "POLYGON" || node.type === "STAR" || node.type === "RECTANGLE" || node.type === "VECTOR" || node.type === "BOOLEAN_OPERATION") {
         // Skip node if it is just a line
         if (node.type === "VECTOR" && node.vectorNetwork.segments.length < 2) {
           figma.notify("Lines cannot be filled.");
@@ -69,7 +69,7 @@ const makeFilled = (selection) => {
         }
 
         madeFilled = true;
-      } else if (node.type === "BOOLEAN_OPERATION" || node.type === "COMPONENT" || node.type === "FRAME" || node.type === "GROUP" || node.type === "INSTANCE") {
+      } else if (node.type === "COMPONENT" || node.type === "FRAME" || node.type === "GROUP" || node.type === "INSTANCE") {
         // Process the children of boolean operation nodes, components, frames, groups, and instances
         makeFilled(node.children);
       } else {
