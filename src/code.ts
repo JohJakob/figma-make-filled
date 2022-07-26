@@ -10,6 +10,11 @@ const makeFilled = (selection) => {
 
     // Only process visible nodes
     if (node.visible) {
+      if (node.type === "BOOLEAN_OPERATION") {
+        // Process children of boolean operation nodes
+        makeFilled(node.children);
+      }
+
       if (node.type === "ELLIPSE" || node.type === "POLYGON" || node.type === "STAR" || node.type === "RECTANGLE" || node.type === "VECTOR" || node.type === "BOOLEAN_OPERATION") {
         // Skip node if it is just a line
         if (node.type === "VECTOR" && node.vectorNetwork.segments.length < 2) {
@@ -70,7 +75,7 @@ const makeFilled = (selection) => {
 
         madeFilled = true;
       } else if (node.type === "COMPONENT" || node.type === "FRAME" || node.type === "GROUP" || node.type === "INSTANCE") {
-        // Process the children of boolean operation nodes, components, frames, groups, and instances
+        // Process the children of components, frames, groups, and instances
         makeFilled(node.children);
       } else {
         figma.notify("This layer type is not supported.");
