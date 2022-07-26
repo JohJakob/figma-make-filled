@@ -33,10 +33,11 @@ const makeFilled = (selection) => {
         // Clone node to be filled
         const fillNode = node.clone();
 
-        // Reparent cloned node and set its position
+        // Reparent cloned node and set its position and rotation
         node.parent.appendChild(fillNode);
         fillNode.x = node.x;
         fillNode.y = node.y;
+        fillNode.rotation = node.rotation;
 
         // Remove strokes from cloned node
         fillNode.strokeStyleId = "";
