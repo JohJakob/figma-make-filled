@@ -23,14 +23,12 @@ const makeFilled = (selection) => {
         }
 
         // Skip node if it has no stroke
-        if (node.strokeWeight === 0) {
+        if (node.strokes.length === 0) {
           continue;
         }
 
-        if ("strokes" in node) {
-          // Save first stroke of node
-          strokes = clone(node.strokes[0]);
-        }
+        // Save first stroke of node
+        strokes = clone(node.strokes[0]);
 
         // Clone node to be filled
         const fillNode = node.clone();
