@@ -1,6 +1,6 @@
 {
   "name": "figma-make-filled",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fill a shape including the stroke",
   "main": "code.js",
   "scripts": {
