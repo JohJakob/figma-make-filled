@@ -15,6 +15,6 @@ _[Figma](https://figma.com/about) plugin to fill shapes and include the original
 - Either create a boolean operation group that includes the stroke and the fill or create a flattened version of the final shape
 - Original stroke colour will be applied as the fill colour of the final shape
 
-## Notes
-
-The plugin ignores invisible layers.
+> **Note**
+>
+> The plugin ignores invisible layers.
