@@ -40,6 +40,10 @@ const fill = (selection) => {
         // Save first stroke of node
         strokes = clone(node.strokes[0]);
 
+        // Remove fills from node
+        node.fillStyleId = '';
+        node.fills = [];
+
         // Clone node to be filled
         const fillNode = node.clone();
 
