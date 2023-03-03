@@ -5,7 +5,8 @@
   "main": "dist/code.js",
   "menu": [
     { "name": "Make Filled", "command": "make_filled" },
-    { "name": "Make Filled and Flatten", "command": "make_filled_and_flatten" }
+    { "name": "Make Filled and Flatten", "command": "make_filled_and_flatten" },
+    { "name": "Make Filled and Merge", "command": "make_filled_and_merge" }
   ],
   "editorType": [
     "figma"
