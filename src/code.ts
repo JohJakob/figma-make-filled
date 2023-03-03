@@ -1,8 +1,10 @@
 import clone from './clone';
 
 const noSelectionMessage = 'You have not selected anything.';
+const nothingToMergeMessage = 'There are no layers in the selection that can be merged.';
 
 let madeFilled = false;
+let nodesToMerge = [];
 
 const makeFilled = (selection) => {
   fill(selection);
@@ -25,9 +27,12 @@ const fill = (selection) => {
         fill(node.children);
       }
 
-      if (node.type === 'ELLIPSE' || node.type === 'POLYGON' || node.type === 'STAR' || node.type === 'RECTANGLE' || node.type === 'VECTOR' || node.type === 'BOOLEAN_OPERATION') {
+      if (node.type === 'ELLIPSE' || node.type === 'POLYGON' || node.type === 'STAR' || node.type === 'RECTANGLE' || node.type === 'VECTOR' || node.type === 'LINE' || node.type === 'BOOLEAN_OPERATION') {
         // Skip node if it is just a line
-        if (node.type === 'VECTOR' && node.vectorNetwork.segments.length < 2) {
+        if (node.type === 'LINE' || node.type === 'VECTOR' && node.vectorNetwork.segments.length < 2) {
+          // Directly push lines into the array for merging later
+          nodesToMerge.push(node);
+
           figma.notify('Lines cannot be filled.');
           continue;
         }
@@ -86,6 +91,11 @@ const fill = (selection) => {
           figma.flatten([boolNode]);
         }
 
+        // Push the boolean operation node into the array for merging
+        if (figma.command === 'make_filled_and_merge') {
+          nodesToMerge.push(boolNode);
+        }
+
         madeFilled = true;
       } else if (node.type === 'COMPONENT' || node.type === 'FRAME' || node.type === 'GROUP' || node.type === 'INSTANCE') {
         // Process the children of components, frames, groups, and instances
@@ -102,6 +112,25 @@ const fill = (selection) => {
   }
 }
 
+const merge = (nodes) => {
+  // Get parent of the first node
+  const parent = nodes[0].parent;
+
+  // Create a boolean operation node of all nodes
+  const mergedNodes = figma.union(nodes, parent);
+
+  // Apply the fills (or fill style ID or stroke style ID) of the first node to the boolean operation node
+  mergedNodes.fills = nodes[0].fills;
+  mergedNodes.fillStyleId = nodes[0].fillStyleId !== '' ? nodes[0].fillStyleId : nodes[0].strokeStyleId;
+
+  // Flatten the boolean operation node
+  const flattenedNode = figma.flatten([mergedNodes]);
+
+  // Set the flattened node as the new selection and empty the global array of nodes to merge
+  figma.currentPage.selection = [flattenedNode];
+  nodesToMerge = [];
+}
+
 figma.on('run', ({ command }) => {
   switch (command) {
     case 'make_filled':
@@ -109,6 +138,10 @@ figma.on('run', ({ command }) => {
       break;
     case 'make_filled_and_flatten':
       makeFilled(figma.currentPage.selection);
+      break;
+    case 'make_filled_and_merge':
+      makeFilled(figma.currentPage.selection);
+      merge(nodesToMerge);
       break;
     case 'create_filled_variant':
       break;
