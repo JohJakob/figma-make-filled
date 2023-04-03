@@ -14,6 +14,8 @@ _[Figma](https://figma.com/about) plugin to fill shapes and include the original
 - Select groups, frames, and boolean operation groups to fill every compatible shape inside
 - Original stroke colour will be applied as the fill colour of the final shape
 
+***
+
 - Create a boolean operation group that includes the stroke and the fill using the “Make Filled” command
 - Create a flattened version of the final shape using the “Make Filled and Flatten” command
 - Merge multiple shapes into a single vector layer using the “Make Filled and Merge” command
